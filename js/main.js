@@ -208,7 +208,3 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     self.markers.push(marker);
   });
 } */
-
-
-
-/* GOOGLE API KEY: AIzaSyDyj1SC9rima9S53ePGRD49IhOj4JSIty0
