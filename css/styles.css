@@ -288,19 +288,140 @@ nav h1 a {
   margin: 0 0 10px;
 }
 #restaurant-hours td {
-  color: #666;
+  /* color: #666; */
+
+}
+#restaurant-hours{
+	width: 100%;
+	overflow-x: auto;
 }
 
-@media screen and (max-width: 450px) {
-  .container {
-    margin: 30px 5px 60px;
-  }
+@media only screen and (max-width: 450px){
   .filter-options select {
-    margin: 10px 5px;
+    margin: 100px 5px;
   }
+	#restaurants-list li {
+		width: 100%;
+	}
+	#neighborhoods-select{
+		width:140px;
+		padding:0;
+	}
+	/* .leaflet-control-attribution{
+		display:none;
+	} */
+	#neighborhoods-select, #cuisines-select{
+		/* margin-left: 13%; */
+	}
+	nav h1{
+		padding-top:20px;
+	}
+	section #reviews-container{
+		margin-left:-5%;
+		width:45%;
+	}
+	#reviews-list li, #reviews-container, #maincontent{
+			margin-left:-5%;
+			padding-left:-5%;
+	}
+
+
+	.inside #footer{
+		width: 100%;
+	}
 }
- @media screen and (min-width: 451px) {
-  .container {
+ @media screen and (max-width: 451px) {
+  /* .container {
     margin: 30px 15px 60px;
+  } */
+	#restaurant-list li{
+		margin-left:10%;
+	}
+
+	#restaurant-list li h1{
+		padding: 20px;
+	}
+}
+
+ @media only screen and (max-width: 801px) {
+  // Restaurant Detail Page for mobil
+  #breadcrumb {
+    width: 100%;
+    padding: 10px 5px 16px;
   }
+   .inside #map-container {
+    height: 400px;
+    position: relative;
+    // right: 0;
+    top: 121px;
+    width: 100%;
+  }
+   #restaurant-container, #reviews-container {
+    width: 100%;
+    padding: 0;
+    margin: 10px 0 10px;
+    position: relative;
+    top: 121px;
+  }
+   #restaurant-img, #restaurant-cuisine {
+    width: 100%;
+    border-radius: 13px 0 13px 0;
+  }
+   #reviews-list li {
+    width: 100%;
+    border: 0;
+    padding: 0;
+    border-radius: 13px 0 13px 0;
+    display: flex;
+    flex-wrap: wrap;
+
+  }
+  #reviews-list li p:nth-child(1) {
+    padding: 5px;
+    background-color: #333;
+    color: white;
+    width: 61%;
+  }
+  #reviews-list li p:nth-child(2) {
+    padding: 5px;
+    // width: 22%;
+    background-color: #333;
+    color: #ccc;
+  }
+  #reviews-list li p:nth-child(3) {
+    background-color: #f58500;
+    width: 70px;
+    color: white;
+    padding: 4px;
+    margin-left: 5px;
+    border-radius: 3px;
+    text-transform: uppercase;
+  }
+  #reviews-list li p:nth-child(4) {
+    margin: 0 5px 20px 5px;
+  }
+   .inside #footer {
+    position: relative;
+    width: 100%;
+    top: 121px;
+    padding: 25px 0 25px;
+  }
+	#breadcrumb{
+		width: 200px;
+    height: 15px;
+	}
+}
+//trying to make it responsive for ipad pro. Not working just yet
+@media screen and (min-width: 500px and max-width: 868px) {
+	#restaurants-list  li{
+	 width: 500px;;
+	 border: 0;
+	 padding: 0;
+	 border-radius: 13px 0 13px 0;
+	 display: flex;
+	 flex-wrap: wrap;
+	 margin-left: 10%;
+
+
+ }
 }
