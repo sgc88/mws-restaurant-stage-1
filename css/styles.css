@@ -409,7 +409,7 @@ nav h1 a {
     padding: 25px 0 25px;
   }
 	#breadcrumb{
-		width: 200px;
+		width: 100%;
     height: 15px;
 	}
 }
