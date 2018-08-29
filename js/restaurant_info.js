@@ -4,38 +4,38 @@ var newMap;
 /**
  * Initialize map as soon as the page is loaded.
  */
-document.addEventListener('DOMContentLoaded', (event) => {
-  initMap();
-});
+// document.addEventListener('DOMContentLoaded', (event) => {
+//   initMap();
+// });
 
 /**
  * Initialize leaflet map
  */
-initMap = () => {
-  fetchRestaurantFromURL((error, restaurant) => {
-    if (error) { // Got an error!
-      console.error(error);
-    } else {
-      self.newMap = L.map('map', {
-        center: [restaurant.latlng.lat, restaurant.latlng.lng],
-        zoom: 16,
-        scrollWheelZoom: false
-      });
-      L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
-        mapboxToken: '<pk.eyJ1Ijoic2VocmliYW4iLCJhIjoiY2prdnQxNWFsMGEzdjNxcGN3cXo4aDUxaSJ9.HMzEM36Ku1D6mqXH2UMZwA>',
-        maxZoom: 18,
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-          '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-          'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        id: 'mapbox.streets'
-      }).addTo(newMap);
-      fillBreadcrumb();
-      DBHelper.mapMarkerForRestaurant(self.restaurant, self.newMap);
-    }
-  });
-}
+// initMap = () => {
+//   fetchRestaurantFromURL((error, restaurant) => {
+//     if (error) { // Got an error!
+//       console.error(error);
+//     } else {
+//       self.newMap = L.map('map', {
+//         center: [restaurant.latlng.lat, restaurant.latlng.lng],
+//         zoom: 16,
+//         scrollWheelZoom: false
+//       });
+//       L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
+//         mapboxToken: '<pk.eyJ1Ijoic2VocmliYW4iLCJhIjoiY2prdnQxNWFsMGEzdjNxcGN3cXo4aDUxaSJ9.HMzEM36Ku1D6mqXH2UMZwA>',
+//         maxZoom: 18,
+//         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+//           '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+//           'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+//         id: 'mapbox.streets'
+//       }).addTo(newMap);
+//       fillBreadcrumb();
+//       DBHelper.mapMarkerForRestaurant(self.restaurant, self.newMap);
+//     }
+//   });
+// }
 
-/* window.initMap = () => {
+ window.initMap = () => {
   fetchRestaurantFromURL((error, restaurant) => {
     if (error) { // Got an error!
       console.error(error);
@@ -49,7 +49,7 @@ initMap = () => {
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
     }
   });
-} */
+}
 
 /**
  * Get current restaurant from page URL.
@@ -127,7 +127,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  fillReviewsHTML = (reviews = self.restaurant.reviews) => {
    const container = document.getElementById('reviews-container');
    const title = document.createElement('h2');
-   title.setAttribute('tabindex' , "-1") ;
+   title.setAttribute('tabindex' , "0") ;
    title.innerHTML = 'Reviews';
    container.appendChild(title);
 
@@ -173,13 +173,20 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 /**
  * Add restaurant name to the breadcrumb navigation menu
  */
+// fillBreadcrumb = (restaurant=self.restaurant) => {
+//   const breadcrumb = document.getElementById('breadcrumb');
+//   const li = document.createElement('li');
+//   li.innerHTML = restaurant.name;
+//   breadcrumb.appendChild(li);
+// }
 fillBreadcrumb = (restaurant=self.restaurant) => {
   const breadcrumb = document.getElementById('breadcrumb');
   const li = document.createElement('li');
-  li.innerHTML = restaurant.name;
+  `<a href="">`+restaurant.name+`</a>`;
+ // li.innerHTML = restaurant.name;
+  li.innerHTML = `<a href="">`+restaurant.name+`</a>`;
   breadcrumb.appendChild(li);
 }
-
 /**
  * Get a parameter by name from page URL.
  */

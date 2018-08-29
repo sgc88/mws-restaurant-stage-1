@@ -8,9 +8,12 @@ var markers = []
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
-  initMap(); // added
-  fetchNeighborhoods();
-  fetchCuisines();
+    // initMap(); // added
+    fetchNeighborhoods();
+    fetchCuisines();
+    registerServiceWorker();
+
+
 });
 
 /**
@@ -36,7 +39,7 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
     const option = document.createElement('option');
     option.innerHTML = neighborhood;
     option.value = neighborhood;
-    select.append(option);
+    select.appendChild(option);
   });
 }
 
@@ -64,42 +67,43 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
     const option = document.createElement('option');
     option.innerHTML = cuisine;
     option.value = cuisine;
-    select.append(option);
+    select.appendChild(option);
   });
 }
 
 /**
  * Initialize leaflet map, called from HTML.
  */
-initMap = () => {
-  self.newMap = L.map('map', {
-        center: [40.722216, -73.987501],
-        zoom: 12,
-        scrollWheelZoom: false
-      });
-  L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
-    mapboxToken: '<pk.eyJ1Ijoic2VocmliYW4iLCJhIjoiY2prdnQxNWFsMGEzdjNxcGN3cXo4aDUxaSJ9.HMzEM36Ku1D6mqXH2UMZwA>',
-    maxZoom: 18,
-    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-      '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-      'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    id: 'mapbox.streets'
-  }).addTo(newMap);
-
-  updateRestaurants();
-}
-/* window.initMap = () => {
+// initMap = () => {
+//   self.newMap = L.map('map', {
+//         center: [40.722216, -73.987501],
+//         zoom: 12,
+//         scrollWheelZoom: false
+//       });
+//   L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
+//     mapboxToken: '<pk.eyJ1Ijoic2VocmliYW4iLCJhIjoiY2prdnQxNWFsMGEzdjNxcGN3cXo4aDUxaSJ9.HMzEM36Ku1D6mqXH2UMZwA>',
+//     maxZoom: 18,
+//     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+//       '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+//       'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+//     id: 'mapbox.streets'
+//   }).addTo(newMap);
+//
+//   updateRestaurants();
+// }
+window.initMap = () => {
   let loc = {
     lat: 40.722216,
     lng: -73.987501
   };
-  self.map = new google.maps.Map(document.getElementById('map'), {
+  var myMap = document.getElementById('map')
+  self.map = new google.maps.Map(myMap, {
     zoom: 12,
     center: loc,
     scrollwheel: false
   });
   updateRestaurants();
-} */
+}
 
 /**
  * Update page and map for current restaurants.
@@ -134,9 +138,7 @@ resetRestaurants = (restaurants) => {
   ul.innerHTML = '';
 
   // Remove all map markers
-  if (self.markers) {
-    self.markers.forEach(marker => marker.remove());
-  }
+  self.markers.forEach(m => m.setMap(null));
   self.markers = [];
   self.restaurants = restaurants;
 }
@@ -186,18 +188,32 @@ createRestaurantHTML = (restaurant) => {
 /**
  * Add markers for current restaurants to the map.
  */
+// addMarkersToMap = (restaurants = self.restaurants) => {
+//   restaurants.forEach(restaurant => {
+//     // Add marker to the map
+//     const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.newMap);
+//     marker.on("click", onClick);
+//     function onClick() {
+//       window.location.href = marker.options.url;
+//     }
+//     self.markers.push(marker);
+//   });
+//
+// }
+
 addMarkersToMap = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {
     // Add marker to the map
-    const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.newMap);
-    marker.on("click", onClick);
-    function onClick() {
-      window.location.href = marker.options.url;
-    }
+    const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.map);
+    google.maps.event.addListener(marker, 'click', () => {
+      window.location.href = marker.url
+    });
     self.markers.push(marker);
   });
-
 }
+
+
+
 /* addMarkersToMap = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {
     // Add marker to the map
@@ -208,3 +224,15 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     self.markers.push(marker);
   });
 } */
+
+/////////////////////////////////////////
+/////////////register serviceWorker//////
+////////////////////////////////////////
+registerServiceWorker = () => {
+  if (!navigator.serviceWorker) return;
+   navigator.serviceWorker.register('/sw.js').then(() => {
+    console.log('Service worker registered!')
+  }).catch(() => {
+    console.log('Failed to register service worker.')
+  })
+}
