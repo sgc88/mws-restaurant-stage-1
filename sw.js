@@ -44,3 +44,6 @@ self.addEventListener('fetch', (event) => {
     })
   );
 });
+
+
+//use area-role: "image" set an attribute for image using javascript
